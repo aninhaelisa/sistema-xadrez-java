@@ -3,6 +3,7 @@ package application;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import chess.ChessMatch;
 import chess.ChessPiece;
 import chess.ChessPosition;
 import chess.Color;
@@ -36,12 +37,12 @@ public class UI {
     }
 
     public static ChessPosition readChessPosition(Scanner sc) {
-        try{
-        String s = sc.nextLine();
-        char column = s.charAt(0);
-        int row = Integer.parseInt(s.substring(1));
-        return new ChessPosition(column, row);
-        } catch(RuntimeException e) {
+        try {
+            String s = sc.nextLine();
+            char column = s.charAt(0);
+            int row = Integer.parseInt(s.substring(1));
+            return new ChessPosition(column, row);
+        } catch (RuntimeException e) {
             throw new InputMismatchException("Error reading ChessPosition. Valid values are from a1 to h8.");
         }
     }
@@ -62,6 +63,13 @@ public class UI {
         System.out.println("  a b c d e f g h");
     }
 
+    public static void printMatch(ChessMatch chessMatch) {
+        printBoard(chessMatch.getPieces());
+        System.out.println();
+        System.out.println("Turn: " + chessMatch.getTurn());
+        System.out.println("Waiting player: " + chessMatch.getCurrentPlayer());
+    }
+
     public static void printBoard(ChessPiece[][] pieces, boolean[][] possibleMoves) {
 
         for (int i = 0; i < pieces.length; i++) {
@@ -79,7 +87,7 @@ public class UI {
     }
 
     private static void printPiece(ChessPiece piece, boolean background) {
-        if(background) {
+        if (background) {
             System.out.print(ANSI_BLUE_BACKGROUND);
         }
         if (piece == null) {
